@@ -86,6 +86,50 @@ buttonTag.appendChild(buttonLink)
 buttonText = document.createTextNode('Place Order')
 buttonTag.onclick = function()
 {
+    let orderDetails = {
+        items: [], // Array to store item details
+        totalAmount: totalAmount // This variable should already exist in your code
+    };
+
+    // Collect item details from the cart
+    let itemDivs = document.querySelectorAll('#boxContainer > div');
+    itemDivs.forEach(div => {
+        let itemName = div.querySelector('h3').innerText.split(' × ')[0]; // Extract item name
+        let itemPrice = div.querySelector('h4').innerText.replace('Amount: Rs', '').trim(); // Extract item price
+
+        orderDetails.items.push({
+            name: itemName,
+            price: itemPrice
+        });
+    });
+
+    // Convert the order details to JSON and then to base64
+    let orderMessage = btoa(JSON.stringify(orderDetails.items));
+
+    // Azure Queue Storage URL with SAS token
+    let queueUrl = "https://wiptest.queue.core.windows.net/csktest/messages?sv=2022-11-02&ss=q&srt=sco&sp=rwdlacup&se=2024-08-08T05:08:06Z&st=2024-08-06T21:08:06Z&spr=https,http&sig=0cIxmp%2BCk3AuAKyP7vL5jgn6ECkMWFgjLaXmGWXX3go%3D";
+
+    // Sending the order details to Azure Queue Storage
+    fetch(queueUrl, {
+        method: 'POST',
+        headers: {
+            'x-ms-version': '2018-03-28',
+            'Content-Type': 'application/xml',
+        },
+        body: `<QueueMessage><MessageText>${orderMessage}</MessageText></QueueMessage>`
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/orderPlaced.html';
+        } else {
+            console.error('Failed to send message to Azure Queue Storage');
+            alert('There was an error placing your order.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
     console.log("clicked")
 }  
 //dynamicCartSection()
