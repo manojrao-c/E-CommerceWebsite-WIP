@@ -9,10 +9,10 @@ app.use(bodyParser.json());
 
 // Database configuration
 const config = {
-    user: 'vamsi8452',
-    password: 'Vamsi@30',
-    server: 'vamsi8452.database.windows.net',
-    database: 'vamsi',
+    user: 'dbadmin',
+    password: 'Group-csk@12',
+    server: 'project-db-server1.database.windows.net',
+    database: 'sql-db-1',
     options: {
         encrypt: true // Use encryption for Azure SQL Database
     }
