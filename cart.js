@@ -107,7 +107,7 @@ buttonTag.onclick = function()
     let orderMessage = btoa(JSON.stringify(orderDetails.items));
 
     // Azure Queue Storage URL with SAS token
-    let queueUrl = "https://cskorderprocessor.queue.core.windows.net/cskorder/messages?sv=2022-11-02&ss=q&srt=sco&sp=rwdlacup&se=2024-08-14T11:45:27Z&st=2024-08-11T03:45:27Z&spr=https,http&sig=7QUJQ9LwltI%2Fijx69x6A9Y33LA5jdSlsk6XMdaxOgnw%3D";
+    let queueUrl = "https://orderprocessor.queue.core.windows.net/cskorder/messages?sv=2022-11-02&ss=q&srt=sco&sp=rwdlacup&se=2024-08-14T09:29:10Z&st=2024-08-12T01:29:10Z&spr=https,http&sig=FcvDr4e3yN6bQaN%2FKHUtFKIbrKv2pdjVfcXasKBUATg%3D";
 
     // Sending the order details to Azure Queue Storage
     fetch(queueUrl, {
